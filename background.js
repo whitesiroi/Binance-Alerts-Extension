@@ -3,6 +3,7 @@ function show(title, message, symbol) {
     var hour = time[1] % 12 || 12;
     var period = time[1] < 12 ? 'a.m.' : 'p.m.';
     if (localStorage.play_sound === 'true') {
+        //var snd = new Audio("http://csfiles.maniapc.org/cs/sound/ambience/fanrot.wav");
         var snd = new Audio("bell.wav");
         snd.play();
     }

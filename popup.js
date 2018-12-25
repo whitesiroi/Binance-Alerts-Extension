@@ -45,7 +45,18 @@ function save_form_data() {
   let form = document.forms.alert;
   let coin = form.coin.value.toUpperCase();
   let price = form.price.value;
-  let buy = form.buy.checked;
+  //let buy = form.buy.checked;
+  let buy = false;
+
+// MINE
+var binanceCoins = jQuery.parseJSON(localStorage.prices);
+for (var j = 0; j < binanceCoins.length; j++) {
+    var binanceCoin = binanceCoins[j];
+    if (binanceCoin.symbol === coin) {
+        buy = binanceCoin.price > price;
+    }
+};
+// MINE
 
   if (coin === "" || price === "") {
     return;
@@ -94,6 +105,32 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   update_prices();
 });
+
+
+// MINE
+document.addEventListener('DOMContentLoaded', function () {
+  export_button = document.getElementById("export_button");
+  export_button.addEventListener('click', function () {
+      // Copy to clipboard
+      var mydata = document.createElement("input");
+      document.body.appendChild(mydata);
+      mydata.setAttribute("id", "mydata_id");
+      document.getElementById("mydata_id").value=localStorage.alert_map;
+      mydata.select();
+      document.execCommand("copy");
+      document.body.removeChild(mydata);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  import_button = document.getElementById("import_button");
+  import_button.addEventListener('click', function (e) {
+      localStorage.alert_map = $('#coinOrImport').val();
+      update_prices();
+  });
+});
+// MINE
+
 
 chrome.runtime.onMessage.addListener(handleBackgroundMessages);
 function handleBackgroundMessages(message) {
