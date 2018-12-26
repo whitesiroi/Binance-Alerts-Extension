@@ -1,6 +1,12 @@
 var background = chrome.extension.getBackgroundPage();
 
 function update_prices() {
+  // MINE - don't update/refrash table cuz of fuzzy search
+  if ($("#coinInput").is(":focus")) {
+      return;
+  }
+  // MINE
+
   var final_text = process_alert_map();
   if (final_text != "") {
     table_header = "<table class='table table-striped'><thead><tr><th>Condition</th><th>Current</th><th></th></tr></thead><tbody>";
@@ -132,8 +138,18 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   import_button = document.getElementById("import_button");
   import_button.addEventListener('click', function (e) {
-      localStorage.alert_map = $('#coinOrImport').val();
+      localStorage.alert_map = $('#coinInput').val();
       update_prices();
+  });
+});
+
+// fuzzy search
+document.addEventListener('DOMContentLoaded', function () {
+  search = document.getElementById("coinInput");
+  search.addEventListener('keyup', function (e) {
+      $("tbody tr").hide();
+      var term = $(this).val().toUpperCase();
+      $("tbody tr td:contains('" + term + "')").parent().show();
   });
 });
 // MINE
