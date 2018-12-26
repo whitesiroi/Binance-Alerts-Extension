@@ -66,9 +66,16 @@ for (var j = 0; j < binanceCoins.length; j++) {
   if (!localStorage.alert_map) {
     localStorage.alert_map = JSON.stringify([data]);
   } else {
-    var array = JSON.parse(localStorage.alert_map);
-    array.push(data)
-    localStorage.alert_map = JSON.stringify(array);
+    // MINE - sort alphabetically
+    var currencies = JSON.parse(localStorage.alert_map);
+    currencies.push(data)
+    currencies.sort(function(a, b) {
+        var textA = a.coin.toUpperCase();
+        var textB = b.coin.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+    localStorage.alert_map = JSON.stringify(currencies);
+    // MINE
   }
   update_prices();
   background.process_alert_map();
