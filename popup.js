@@ -138,8 +138,10 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   import_button = document.getElementById("import_button");
   import_button.addEventListener('click', function (e) {
-      localStorage.alert_map = $('#coinInput').val();
-      update_prices();
+      if (confirm('Are you sure mate?')) {
+          localStorage.alert_map = $('#coinInput').val();
+          update_prices();
+      }
   });
 });
 
